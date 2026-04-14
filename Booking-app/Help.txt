@@ -1,0 +1,12 @@
+
+## Read Data from List
+var users []string  # Slice declaration
+	users = []string{
+		"John Doe",
+		"Alice Smith",
+		"Bob Marley",
+	}
+	for _, booking := range users {
+		var names = strings.Fields(booking)
+		fmt.Printf("The first names of bookings are: %v \n", names[0])
+	}
