@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Booking-app-goPackage/helper"
 	"fmt"
 	"strings"
 )
@@ -20,7 +21,8 @@ func main() {
 		// get user input
 		firstName, lastName, email, userTickets := getUserInput()
 		// validate user input from function
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
@@ -66,12 +68,7 @@ func getFirstNames() []string {
 	return firstNames
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
-}
+// This function has been moved to the helper package as ValidateUserInput
 
 func getUserInput() (string, string, string, uint) {
 	var firstName string

@@ -5,29 +5,27 @@ import (
 	"strings"
 )
 
-// Not good practice to use global variables but for this simple application we will use it
-const conferenceTickets int = 50
-
-var remainingTickets uint = 50
-var conferenceName string = "Go Conference"
-var bookings = []string{}
-
 func main() {
 
-	greetUser()
+	const conferenceTickets int = 50
+	var remainingTickets uint = 50
+	conferenceName := "Go Conference"
+	bookings := []string{}
+
+	greetUser(conferenceName, conferenceTickets, remainingTickets)
 
 	for {
 		// get user input
 		firstName, lastName, email, userTickets := getUserInput()
 		// validate user input from function
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
 			// book ticket in system
-			bookTicket(firstName, lastName, email, userTickets)
+			bookTicket(firstName, lastName, email, userTickets, conferenceName, remainingTickets, bookings)
 			// print only first names
-			firstNames := getFirstNames()
+			firstNames := getFirstNames(bookings)
 			fmt.Printf("The first names %v\n", firstNames)
 
 			// exit application if no tickets are left
@@ -51,13 +49,13 @@ func main() {
 	}
 }
 
-func greetUser() {
-	fmt.Printf("Welcome to %v booking application.\n", conferenceName)
-	fmt.Printf("We have total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
-	fmt.Printf("Get your tickets here to attend %v\n", conferenceName)
+func greetUser(confName string, confTickets int, remTicket uint) {
+	fmt.Printf("Welcome to %v booking application.\n", confName)
+	fmt.Printf("We have total of %v tickets and %v are still available.\n", confTickets, remTicket)
+	fmt.Printf("Get your tickets here to attend %v\n", confName)
 }
 
-func getFirstNames() []string {
+func getFirstNames(bookings []string) []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
 		var names = strings.Fields(booking)
@@ -66,7 +64,7 @@ func getFirstNames() []string {
 	return firstNames
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
+func validateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
 	isValidName := len(firstName) >= 2 && len(lastName) >= 2
 	isValidEmail := strings.Contains(email, "@")
 	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
@@ -96,7 +94,7 @@ func getUserInput() (string, string, string, uint) {
 
 }
 
-func bookTicket(firstName string, lastName string, email string, userTickets uint) {
+func bookTicket(firstName string, lastName string, email string, userTickets uint, conferenceName string, remainingTickets uint, bookings []string) {
 	remainingTickets = remainingTickets - userTickets
 	bookings = append(bookings, firstName+" "+lastName)
 
