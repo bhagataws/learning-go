@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	fmt.Printf("****Welcome to the Kubernetes controllers application****\n")
@@ -15,5 +17,7 @@ func main() {
 		for i := 1; i <= replicas; i++ {
 			fmt.Printf("Starting %s pods %d\n", applicationName, i)
 		}
+		fmt.Printf("All %d pods for %s are deployed \n", replicas, applicationName)
 	}
+
 }
