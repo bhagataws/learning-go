@@ -63,7 +63,7 @@ func main() {
 	client := &FakeClient{}
 	reconciler := &AppReconciler{client: client}
 
-	err := reconciler.Reconcile("")
+	err := reconciler.Reconcile("my-app")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
